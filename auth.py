@@ -1,15 +1,16 @@
 #register
-# - username, password, email
+# - first name, last name, password, email
 # - generate user acount
 
 #login
-# - (username or email) and password
+# - account number, password
 
 #bank operations
 
 #initializing the system
+import random
 
-database = {}
+database = {} #dictionary
 
 
 def init():
@@ -27,21 +28,41 @@ def init():
             login()
         elif(haveAccount == 2):
             isValidOptionSelected = True
-            register()
+            print(register())
         else:
             print('You have selected an invalid option')
 
 def login():
-    print('This is the login function')
+
+    print('Login to your account')
+
+    bankOperation()
 
 def register():
-    print('This is the register function')
+
+    print("***** Register *****")
+
+    email = input('What is your email address? \n')
+    first_name =  input('What is your first name? \n')
+    last_name = input('What is your last name? \n')
+    password = input('Create a password for yourself \n')
+
+    accountNumber = generationAccountNumber()
+
+    database[accountNumber] = [first_name, last_name, email, password]
+
+    print('Your account has been created')
+
+    login()
 
 def bankOperation():
     print('some operations')
 
 def generationAccountNumber():
-    print('account number generator')
+
+    
+    return random.randrange(1111111111, 9999999999)
+    
 
 
 
@@ -49,5 +70,6 @@ def generationAccountNumber():
 ### Actual Banking System ###
 
 init()
+
 
 
