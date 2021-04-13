@@ -34,9 +34,23 @@ def init():
 
 def login():
 
-    print('Login to your account')
+    print('***** Login *****')
 
-    bankOperation()
+    isLoginSuccessful = False
+
+    while isLoginSuccessful == False:
+
+        accountNumberFromUser = int(input('What is your account number? \n'))
+        password = input('What is your password? \n')
+
+        for accountNumber, userDetails in database.items():
+            if(accountNumber == accountNumberFromUser):
+                if(userDetails[3] == password):
+                    isLoginSuccessful = True
+
+        print('Invalid account or password')
+
+    bankOperation(userDetails)
 
 def register():
 
@@ -52,11 +66,43 @@ def register():
     database[accountNumber] = [first_name, last_name, email, password]
 
     print('Your account has been created')
+    print('== ==== ===== ===== ===')
+    print('Your account number is: %d' % accountNumber)
+    print('Make sure you keep it safe')
+    print('== ==== ===== ===== ===')
 
     login()
 
-def bankOperation():
-    print('some operations')
+def bankOperation(user):
+
+    print('Welcome %s %s' % ( user[0], user[1]))
+
+   
+    selectedOption = int(input('What would you like to do? (1) deposit (2) withdrawl (3) logout (4)exit'))
+
+    if(selectedOption == 1):
+        
+        depositOperation()
+    elif(selectedOption == 2):
+        
+        withdrawlOperation()
+    elif(selectedOption == 3):
+        
+        login()
+    elif(selectedOption == 4):
+        
+        exit()
+    else:
+        print('Invalid option selected')
+        bankOperation(user)
+
+def withdrawalOperation():
+    print('withdrawal')
+
+def depositOperation():
+    print('deposit')
+
+
 
 def generationAccountNumber():
 
