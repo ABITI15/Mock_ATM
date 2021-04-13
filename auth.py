@@ -8,6 +8,9 @@
 #bank operations
 
 #initializing the system
+import datetime
+now = datetime.datetime.now()
+
 import random
 
 database = {} #dictionary
@@ -15,46 +18,43 @@ database = {} #dictionary
 
 def init():
    
-    isValidOptionSelected = False
+    print(now.strftime('%Y-%m-%d %H:%M:%S'))
     print('Welcome to bankPHP')
 
-    while isValidOptionSelected == False:
-
-   
-        haveAccount = int(input('Do you have an account with us: 1 (yes) 2 (no): \n'))
     
-        if(haveAccount == 1):
-            isValidOptionSelected = True
+    haveAccount = int(input('Do you have an account with us: 1 (Yes) 2 (No): \n'))
+    
+    if(haveAccount == 1):
+            
             login()
-        elif(haveAccount == 2):
-            isValidOptionSelected = True
-            print(register())
-        else:
-            print('You have selected an invalid option')
+    elif(haveAccount == 2):
+            
+            register()
+    else:
+            print('Invalid Option Selected')
+
+            int()
 
 def login():
 
-    print('***** Login *****')
+    print('+++++ Login +++++')
 
-    isLoginSuccessful = False
+    accountNumberFromUser = int(input('What is your account number? \n'))
+    password = input('What is your password? \n')
 
-    while isLoginSuccessful == False:
-
-        accountNumberFromUser = int(input('What is your account number? \n'))
-        password = input('What is your password? \n')
-
-        for accountNumber, userDetails in database.items():
-            if(accountNumber == accountNumberFromUser):
-                if(userDetails[3] == password):
-                    isLoginSuccessful = True
-
-        print('Invalid account or password')
-
-    bankOperation(userDetails)
+    for accountNumber, userDetails in database.items():
+        if(accountNumber == accountNumberFromUser):
+            if(userDetails[3] == password):
+                bankOperation(userDetails)
+                
+    else:
+        print('Invalid Login')
+        
+    login()
 
 def register():
 
-    print("***** Register *****")
+    print('+++++ Register +++++')
 
     email = input('What is your email address? \n')
     first_name =  input('What is your first name? \n')
@@ -66,41 +66,99 @@ def register():
     database[accountNumber] = [first_name, last_name, email, password]
 
     print('Your account has been created')
-    print('== ==== ===== ===== ===')
+    print('*************')
     print('Your account number is: %d' % accountNumber)
-    print('Make sure you keep it safe')
-    print('== ==== ===== ===== ===')
+    print('Please keep it safe')
+    print('*************')
 
     login()
 
 def bankOperation(user):
 
-    print('Welcome %s %s' % ( user[0], user[1]))
+    print('Welcome %s %s !' % ( user[0], user[1]))
 
    
-    selectedOption = int(input('What would you like to do? (1) deposit (2) withdrawl (3) logout (4)exit'))
+    selectedOption = int(input('What would you like to do? (1) Deposit (2) Withdrawl (3) Logout (4) Exit (5) File a complaint \n'))
 
     if(selectedOption == 1):
         
         depositOperation()
     elif(selectedOption == 2):
         
-        withdrawlOperation()
+        withdrawalOperation()
     elif(selectedOption == 3):
         
-        login()
+        logout()
     elif(selectedOption == 4):
         
         exit()
+    elif(selectedOption == 5):
+        
+        complaintOperation()
+
     else:
-        print('Invalid option selected')
-        bankOperation(user)
+        print('Invalid Option Selected')
+    
+    bankOperation(user)
 
 def withdrawalOperation():
-    print('withdrawal')
+    print('You selected WITHDRAWAL')
+    
+    withdraw = input('How much would you like to withdraw? \n')
+    
+    print('Please take your cash')
+
+    selectedOptions = int(input('Does that complete your transaction? (1) Yes (2) No \n'))
+
+    if(selectedOptions == 1):
+        
+        init()
+
+    elif(selectedOptions == 2):
+        login()
+
+    else:
+        print('Invalid Option Selected')
+
 
 def depositOperation():
-    print('deposit')
+    
+    print('You selected DEPOSIT')
+    
+    deposit = input('How much would you like to deposit? \n')
+    print('Your balance is %s' % deposit)
+    
+    selectedOptions = int(input('Does that complete your transaction? (1) Yes (2) No \n'))
+
+    if(selectedOptions == 1):
+        
+        init()
+
+    elif(selectedOptions == 2):
+        login()
+
+    else:
+        print('Invalid Option Selected')
+
+def complaintOperation():
+    print('You selected COMPLAINT')
+    
+    complaint = input('Please briefly discuss your banking issue \n')
+
+    print('We have received your complaint and will respond shortly - Thank you and have a great day')
+
+    selectedOptions = int(input('Does that complete your transaction? (1) Yes (2) No \n'))
+
+    if(selectedOptions == 1):
+        
+        init()
+
+    elif(selectedOptions == 2):
+        login()
+
+    else:
+        print('Invalid Option Selected')
+
 
 
 
@@ -108,14 +166,17 @@ def generationAccountNumber():
 
     
     return random.randrange(1111111111, 9999999999)
+
+def logout():
+    login()
     
 
 
 
 
 ### Actual Banking System ###
-
 init()
+
 
 
 
