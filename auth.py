@@ -76,11 +76,9 @@ def register():
     password = input('Create a password for yourself \n')
 
     
-    try:
-        accountNumber = generationAccountNumber()
-    except ValueError:
-        print('Account generation failed')
-        init()
+    
+    accountNumber = generationAccountNumber()
+    
 
     database[accountNumber] = [first_name, last_name, email, password, 0]
 
