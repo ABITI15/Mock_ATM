@@ -13,7 +13,12 @@ now = datetime.datetime.now()
 
 import random
 
-database = {} #dictionary
+import validation
+
+database = {
+    9316394511: ['Cierra', 'Triche', 'mscasy9@yahoo.com', 'password', 250] 
+} 
+#dictionary
 
 
 def init():
@@ -39,18 +44,27 @@ def login():
 
     print('+++++ Login +++++')
 
-    accountNumberFromUser = int(input('What is your account number? \n'))
-    password = input('What is your password? \n')
+    accountNumberFromUser = input('What is your account number? \n')
 
-    for accountNumber, userDetails in database.items():
-        if(accountNumber == accountNumberFromUser):
-            if(userDetails[3] == password):
-                bankOperation(userDetails)
+    is_valid_account_number = validation.account_number_validation(accountNumberFromUser)
+    
+    if is_valid_account_number:
+  
+        password = input('What is your password? \n')
+
+        for accountNumber, userDetails in database.items():
+            if accountNumber == int(accountNumberFromUser):
+                if(userDetails[3] == password):
+                    bankOperation(userDetails)
                 
-    else:
         print('Invalid Login')
-        
-    login()
+        login()
+
+    else:
+        init()
+    
+
+
 
 def register():
 
@@ -61,9 +75,14 @@ def register():
     last_name = input('What is your last name? \n')
     password = input('Create a password for yourself \n')
 
-    accountNumber = generationAccountNumber()
+    
+    try:
+        accountNumber = generationAccountNumber()
+    except ValueError:
+        print('Account generation failed')
+        init()
 
-    database[accountNumber] = [first_name, last_name, email, password]
+    database[accountNumber] = [first_name, last_name, email, password, 0]
 
     print('Your account has been created')
     print('*************')
@@ -166,6 +185,9 @@ def generationAccountNumber():
 
     
     return random.randrange(1111111111, 9999999999)
+
+def get_current_balance(usersDetails):
+    return userDetails[4] 
 
 def logout():
     login()
