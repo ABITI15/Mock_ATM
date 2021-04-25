@@ -4,23 +4,20 @@ def account_number_validation(accountNumber):
     # if the accountNumber is an integer
     if accountNumber:
 
-        if len(str(accountNumber)) == 10:
-
-            try: 
-                int(accountNumber)
+        try: 
+            int(accountNumber)
+                
+            if len(str(accountNumber)) == 10:
+                    
                 return True
             
-            except ValueError:
-                print('Invalid Account number, account number should be an integer')
+        except ValueError:
+           
                 return False
 
-            except TypeError:
-                print('Invalid account type')
+        except TypeError:
+            
                 return False
+          
         
-        else:
-            print('Account number cannot be more than 10 digits')
-            return False
-    else:   
-        print('Account number is a required field')
-        return False
+    return False

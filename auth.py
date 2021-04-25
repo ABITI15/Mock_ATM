@@ -15,11 +15,9 @@ import random
 
 import validation
 
-database = {
-    9316394511: ['Cierra', 'Triche', 'mscasy9@yahoo.com', 'password', 250] 
-} 
-#dictionary
+import database
 
+from getpass import getpass
 
 def init():
    
@@ -49,18 +47,21 @@ def login():
     is_valid_account_number = validation.account_number_validation(accountNumberFromUser)
     
     if is_valid_account_number:
-  
-        password = input('What is your password? \n')
 
-        for accountNumber, userDetails in database.items():
-            if accountNumber == int(accountNumberFromUser):
-                if(userDetails[3] == password):
-                    bankOperation(userDetails)
+        password = getpass('What is your password? \n')
+        
+        user = database.authenticated_user(accountNumberFromUser, password)
+       
+        if user: 
+           bankOperation(user)
+       
+       
                 
         print('Invalid Login')
         login()
 
     else:
+        print('Account Number Invalid, make sure you have 10 digits and only integers')
         init()
     
 
@@ -73,22 +74,26 @@ def register():
     email = input('What is your email address? \n')
     first_name =  input('What is your first name? \n')
     last_name = input('What is your last name? \n')
-    password = input('Create a password for yourself \n')
-
-    
+    password = getpass('Create a password for yourself \n')
     
     accountNumber = generationAccountNumber()
-    
 
-    database[accountNumber] = [first_name, last_name, email, password, 0]
+    is_user_created = database.create(accountNumber, first_name, last_name, email, password)
 
-    print('Your account has been created')
-    print('*************')
-    print('Your account number is: %d' % accountNumber)
-    print('Please keep it safe')
-    print('*************')
+    if is_user_created:
 
-    login()
+        print('Your account has been created')
+        print('*************')
+        print('Your account number is: %d' % accountNumber)
+        print('Please keep it safe')        
+        print('*************')
+
+        login()
+
+    else:
+        print('Something went wrong, please try again')
+
+        register()
 
 def bankOperation(user):
 
